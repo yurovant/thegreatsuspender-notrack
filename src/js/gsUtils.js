@@ -130,18 +130,10 @@ var gsUtils = {
 
   //tests for non-standard web pages. does not check for suspended pages!
   isSpecialTab: function(tab) {
-    const url = tab.url || tab.pendingUrl;
     if (gsUtils.isSuspendedTab(tab, true)) {
       return false;
     }
-    // Careful, suspended urls start with "chrome-extension://"
-    if (
-      url.indexOf('about') === 0 ||
-      url.indexOf('chrome') === 0 ||
-      // webstore urls no longer seem to crash the extension :D
-      // url.indexOf('chrome.google.com/webstore') >= 0 ||
-      gsUtils.isBlockedFileTab(tab)
-    ) {
+    if (gsUtils.isBlockedFileTab(tab)) {
       return true;
     }
     return false;
@@ -149,7 +141,7 @@ var gsUtils = {
 
   isFileTab: function(tab) {
     const url = tab.url || tab.pendingUrl;
-    if (url.indexOf('file') === 0) {
+    if (url && url.indexOf && url.indexOf('file') === 0) {
       return true;
     }
     return false;
